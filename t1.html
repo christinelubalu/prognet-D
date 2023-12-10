@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>CRUD Biodata</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">CRUD Biodata</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="t1.html">Tambah Data</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="t2.html">Data Biodata</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Form Biodata</h1>
+        <form id="biodataForm" onsubmit="saveData()">
+            <div class="form-group">
+                <label for="nama">Nama:</label>
+                <input type="text" class="form-control" id="nama" name="nama" required>
+            </div>
+            <div class="form-group">
+            <label for="inputNim">NIM:</label>
+            <input type="number" class="form-control" id="inputNim" name="inputNim" required>
+            </div>
+            <div class="form-group">
+                <label for="inputJenisKelamin">Jenis Kelamin:</label>
+                <select class="form-control" id="inputJenisKelamin" name="inputJenisKelamin" required>
+                    <option value="Teknik Industri"></option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
+                </div>
+            <div class="form-group">
+                <label for="inputProgramStudi">Program Studi:</label>
+                <select class="form-control" id="inputProgramStudi" name="inputProgramStudi" required>
+                    <option value="Teknik Industri"></option>
+                    <option value="Teknik Industri">Teknik Industri</option>
+                    <option value="Teknik Elektro">Teknik Elektro</option>
+                    <option value="Teknik Mesin">Teknik Mesin</option>
+                    <option value="Teknik Lingkungan">Teknik Lingkungan</option>
+                    <option value="Teknik Sipil">Teknik Sipil</option>
+                    <option value="Teknologi Informasi">Teknologi Informasi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="alamat">Alamat:</label>
+                <input type="text" class="form-control" id="alamat" name="alamat" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function saveData() {
+            event.preventDefault();
+    
+            const nama = document.getElementById('nama').value;
+            const nim = document.getElementById('inputNim').value;
+            const jenisKelamin = document.getElementById('inputJenisKelamin').value;
+            const programStudi = document.getElementById('inputProgramStudi').value;
+            const alamat = document.getElementById('alamat').value;
+            const email = document.getElementById('email').value;
+    
+            if (!validateEmail(email)) {
+                alert('Email harus diisi dengan format yang benar');
+                return;
+            }
+    
+            const newData = {
+                nama,
+                nim,
+                jenisKelamin,
+                programStudi,
+                alamat,
+                email
+            };
+    
+            // Get existing data from localStorage
+            const existingData = JSON.parse(localStorage.getItem('biodata')) || [];
+    
+            // Add new data
+            existingData.push(newData);
+    
+            // Save updated data to localStorage
+            localStorage.setItem('biodata', JSON.stringify(existingData));
+    
+            // Clear the form
+            document.getElementById('biodataForm').reset();
+    
+            alert('Data berhasil disimpan!');
+    
+            // Redirect to t2.html with the saved data
+            window.location.href = 't2.html';
+        }
+    
+        function validateEmail(email) {
+            const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            return pattern.test(email);
+        }
+    </script>
+</body>
+</html>

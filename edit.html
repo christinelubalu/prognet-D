@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>CRUD Biodata - Edit Data</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">CRUD Biodata</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="t1.html">Tambah Data</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="t2.html">Data Biodata</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Edit Data</h1>
+
+        <form id="editForm">
+            <div id="editBiodata" class="border p-3 rounded mb-3">
+            </div>
+            <button type="button" class="btn btn-warning" onclick="updateData()">Update</button>
+            <a href="t2.html" class="btn btn-secondary">Kembali</a>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const index = urlParams.get('index');
+    
+            if (index !== null) {
+                displayEditForm(index);
+            } else {
+                document.getElementById('editBiodata').innerHTML = '<p>Data tidak ditemukan.</p>';
+            }
+        });
+    
+        function displayEditForm(index) {
+            const savedData = JSON.parse(localStorage.getItem('biodata')) || [];
+    
+            if (index >= 0 && index < savedData.length) {
+                const biodata = savedData[index];
+                const editBiodata = document.getElementById('editBiodata');
+    
+                editBiodata.innerHTML = `
+                    <div class="form-group">
+                        <label for="editNama">Nama:</label>
+                        <input type="text" class="form-control" id="editNama" name="editNama" value="${biodata.nama}">
+                    </div>
+                    <div class="form-group">
+                        <label for="editNim">NIM:</label>
+                        <input type="text" class="form-control" id="editNim" name="editNim" value="${biodata.nim}">
+                    </div>
+                    <div class="form-group">
+                        <label for="editJenisKelamin">Jenis Kelamin:</label>
+                        <select class="form-control" id="editJenisKelamin" name="editJenisKelamin">
+                            <option value="Laki-laki" ${biodata.jenisKelamin === 'Laki-laki' ? 'selected' : ''}>Laki-laki</option>
+                            <option value="Perempuan" ${biodata.jenisKelamin === 'Perempuan' ? 'selected' : ''}>Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProgramStudi">Program Studi:</label>
+                        <select class="form-control" id="editProgramStudi" name="editProgramStudi">
+                            <option value="Teknik Industri" ${biodata.programStudi === 'Teknik Industri' ? 'selected' : ''}>Teknik Industri</option>
+                            <option value="Teknik Elektro" ${biodata.programStudi === 'Teknik Elektro' ? 'selected' : ''}>Teknik Elektro</option>
+                            <option value="Teknik Mesin" ${biodata.programStudi === 'Teknik Mesin' ? 'selected' : ''}>Teknik Mesin</option>
+                            <option value="Teknik Lingkungan" ${biodata.programStudi === 'Teknik Lingkungan' ? 'selected' : ''}>Teknik Lingkungan</option>
+                            <option value="Teknik Sipil" ${biodata.programStudi === 'Teknik Sipil' ? 'selected' : ''}>Teknik Sipil</option>
+                            <option value="Teknologi Informasi" ${biodata.programStudi === 'Teknologi Informasi' ? 'selected' : ''}>Teknologi Informasi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAlamat">Alamat:</label>
+                        <input type="text" class="form-control" id="editAlamat" name="editAlamat" value="${biodata.alamat}">
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email:</label>
+                        <input type="text" class="form-control" id="editEmail" name="editEmail" value="${biodata.email}">
+                    </div>
+                `;
+            } else {
+                document.getElementById('editBiodata').innerHTML = '<p>Data tidak ditemukan.</p>';
+            }
+        }
+    
+        function updateData() {
+            const savedData = JSON.parse(localStorage.getItem('biodata')) || [];
+            const urlParams = new URLSearchParams(window.location.search);
+            const index = urlParams.get('index');
+    
+            if (index !== null && index >= 0 && index < savedData.length) {
+                // Update the data
+                savedData[index].nama = document.getElementById('editNama').value;
+                savedData[index].nim = document.getElementById('editNim').value;
+                savedData[index].jenisKelamin = document.getElementById('editJenisKelamin').value;
+                savedData[index].programStudi = document.getElementById('editProgramStudi').value;
+                savedData[index].alamat = document.getElementById('editAlamat').value;
+                savedData[index].email = document.getElementById('editEmail').value;
+    
+                // Save the updated data back to local storage
+                localStorage.setItem('biodata', JSON.stringify(savedData));
+    
+                // Inform the user
+                alert('Data berhasil diperbarui!');
+    
+                // Redirect back to t2.html
+                window.location.href = 't2.html';
+            } else {
+                alert('Data tidak ditemukan.');
+            }
+        }
+    </script>
+</body>
+
+</html>

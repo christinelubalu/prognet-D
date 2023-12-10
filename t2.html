@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>CRUD Biodata - Data Biodata</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">CRUD Biodata</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="t1.html">Tambah Data</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="t2.html">Data Biodata</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Data Biodata</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">NIM</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Program Studi</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="biodataTableBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            displayData();
+        });
+    
+        function displayData() {
+            const biodataTableBody = document.getElementById('biodataTableBody');
+            biodataTableBody.innerHTML = '';
+    
+            const savedData = JSON.parse(localStorage.getItem('biodata')) || [];
+    
+            savedData.forEach((data, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <th scope="row">${index + 1}</th>
+                    <td>${data.nama}</td>
+                    <td>${data.nim}</td>
+                    <td>${data.jenisKelamin}</td>
+                    <td>${data.programStudi}</td>
+                    <td>${data.email}</td>
+                    <td>
+                        <a href="lihat.html?index=${index}" class="btn btn-info btn-sm">Lihat</a>
+                        <a href="edit.html?index=${index}" class="btn btn-warning btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-sm" onclick="deleteData(${index})">Hapus</button>
+                    </td>
+                `;
+                biodataTableBody.appendChild(row);
+            });
+        }
+    
+        function deleteData(index) {
+            const confirmDelete = confirm('Apakah Anda yakin ingin menghapus data ini?');
+            if (confirmDelete) {
+                const savedData = JSON.parse(localStorage.getItem('biodata')) || [];
+                savedData.splice(index, 1);
+                localStorage.setItem('biodata', JSON.stringify(savedData));
+                displayData();
+                alert('Data berhasil dihapus!');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>CRUD Biodata - Lihat Data</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">CRUD Biodata</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="t1.html">Tambah Data</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="t2.html">Data Biodata</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Lihat Data</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Field</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nama</td>
+                    <td><input type="text" class="form-control" id="viewNama" name="viewNama" readonly></td>
+                </tr>
+                <tr>
+                    <td>NIM</td>
+                    <td><input type="text" class="form-control" id="viewNim" name="viewNim" readonly></td>
+                </tr>
+                <tr>
+                    <td>Alamat</td>
+                    <td><input type="text" class="form-control" id="viewAlamat" name="viewAlamat" readonly></td>
+                </tr>
+                <tr>
+                    <td>Jenis Kelamin</td>
+                    <td><input type="text" class="form-control" id="viewJenisKelamin" name="viewJenisKelamin" readonly></td>
+                </tr>
+                <tr>
+                    <td>Program Studi</td>
+                    <td><input type="text" class="form-control" id="viewProgramStudi" name="viewProgramStudi" readonly></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="text" class="form-control" id="viewEmail" name="viewEmail" readonly></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="t2.html" class="btn btn-secondary">Kembali</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const index = urlParams.get('index');
+
+            if (index !== null) {
+                displayBiodata(index);
+            } else {
+                document.getElementById('viewNama').value = 'Data tidak ditemukan.';
+            }
+        });
+
+        function displayBiodata(index) {
+            const savedData = JSON.parse(localStorage.getItem('biodata')) || [];
+
+            if (index >= 0 && index < savedData.length) {
+                const biodata = savedData[index];
+
+                document.getElementById('viewNama').value = biodata.nama;
+                document.getElementById('viewNim').value = biodata.nim;
+                document.getElementById('viewAlamat').value = biodata.alamat;
+                document.getElementById('viewJenisKelamin').value = biodata.jenisKelamin;
+                document.getElementById('viewProgramStudi').value = biodata.programStudi;
+                document.getElementById('viewEmail').value = biodata.email;
+            } else {
+                document.getElementById('viewNama').value = 'Data tidak ditemukan.';
+            }
+        }
+    </script>
+</body>
+
+</html>
